@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TetrisExam.Appli.View.MainPage"
+             xmlns:viewmodel="clr-namespace:TetrisExam.Appli.ViewModel"
+             x:DataType="viewmodel:MainPageViewModel"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             Title="{Binding Title}">
+
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+
+            <Button Text="Best Score"   
+            
+                    Command="{Binding GoToBestScoreCommand}"
+                    IsEnabled="{Binding IsNotBusy}"    
+                    Margin="8"
+                    WidthRequest="200" CornerRadius="20" HorizontalOptions="Center"    />
+
+            <Button Text="Register"   
+            
+                    Command="{Binding GoToRegisterCommand}"
+                    IsEnabled="{Binding IsNotBusy}"    
+                    Margin="8"
+                    WidthRequest="200" CornerRadius="20" HorizontalOptions="Center"    />
+
+            <Button Text="Login" 
+                    Command="{Binding GoToLoginCommand}"
+                    IsEnabled="{Binding IsNotBusy}"
+                    Margin="8"
+                    WidthRequest="200" CornerRadius="20" HorizontalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

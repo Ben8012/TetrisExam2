@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TetrisExam.Appli.View.BestScorePage"
+             
+              xmlns:model="clr-namespace:TetrisExam.Appli.Model"
+             xmlns:viewmodel="clr-namespace:TetrisExam.Appli.ViewModel"
+             x:DataType="viewmodel:BestScoreViewModel"
+            
+             Title="BestScorePage">
+
+
+  
+      
+    
+        
+
+        <Grid
+        ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="*,Auto"
+        RowSpacing="0"
+        Margin="8"    >
+            
+
+
+
+
+        <Button  Grid.Row="1" Grid.ColumnSpan="1" Text="Back"   
+                    Command="{Binding BackCommand}"
+                    IsEnabled="{Binding IsNotBusy}"    
+                    Margin="8"
+                    WidthRequest="200" CornerRadius="20" 
+                    />
+        <Button  Grid.Row="1" Grid.ColumnSpan="2" Text="Refresh"   
+                    Command="{Binding GetBestScoreCommand}"
+                    IsEnabled="{Binding IsNotBusy}"    
+                    Margin="8"
+                    WidthRequest="200" CornerRadius="20" 
+                    />
+
+
+        <RefreshView
+        Grid.ColumnSpan="2"
+        Command="{Binding GetBestScoreCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
+                <ContentView>
+
+                <CollectionView
+                    ItemsSource="{Binding Users}"
+                    SelectionMode="None">
+
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:User">
+                                <Grid Padding="10">
+                                <Frame HeightRequest="125" WidthRequest="500" HorizontalOptions="Center" Style="{StaticResource CardView}">
+
+                                        <Grid Padding="0" ColumnDefinitions="125,*">
+
+                                            <VerticalStackLayout
+                                            Grid.Column="1"  
+                                            Grid.Row="2"
+                                            Padding="10">
+                                                <Label Style="{StaticResource LargeLabel}" Text="{Binding Name, StringFormat='Name : {0}'}"  FontSize="28" TextColor="Gray"  />
+                                                <Label Style="{StaticResource MediumLabel}" Text="{Binding Point, StringFormat='Best Point : {0}'}"  FontSize="28" TextColor="Gray" />
+                                                
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+
+                    </CollectionView>
+
+                </ContentView>
+            </RefreshView>
+
+
+        </Grid>
+
+    
+   
+      
+
+    
+</ContentPage>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TetrisExam.Appli.View.ProfilPage"
+             xmlns:viewmodel="clr-namespace:TetrisExam.Appli.ViewModel"
+             x:DataType="viewmodel:ProfilViewModel"
+             Title="{Binding User.Name}">
+    <ScrollView>
+
+        <VerticalStackLayout    Spacing="25"
+                                Padding="30,0"
+                                VerticalOptions="Center">
+
+            <Label Text="{Binding User.Name, StringFormat='Welcome {0}'}"  FontSize="28" TextColor="Gray" HorizontalTextAlignment="Center"/>
+            <Label Text="{Binding User.Point, StringFormat='Your best point is {0}'}" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
+            <Button Text="Play"   
+                    Command="{Binding GameCommand}"
+                    IsEnabled="{Binding IsNotBusy}"    
+                    Margin="8"
+                    WidthRequest="100" CornerRadius="20" HorizontalOptions="Center"
+                    />
+            <Button Text="Back"   
+                    Command="{Binding BackCommand}"
+                    IsEnabled="{Binding IsNotBusy}"    
+                    Margin="8"
+                    WidthRequest="100" CornerRadius="20" HorizontalOptions="Center"
+                    />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
