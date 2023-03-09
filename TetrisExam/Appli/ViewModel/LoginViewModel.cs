@@ -45,7 +45,7 @@ namespace TetrisExam.Appli.ViewModel
 
                 User user = await _userService.Login(login);
 
-                // mettre la redirection en commentaire pour le test du login ?? 
+                // mettre la redirection en commentaire pour le test du login
                 if (user != null)
                 {
                     await Shell.Current.GoToAsync(nameof(ProfilPage), true, new Dictionary<string, object>
