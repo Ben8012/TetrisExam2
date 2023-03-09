@@ -42,8 +42,9 @@
 
         <RefreshView
         Grid.ColumnSpan="2"
-        Command="{Binding GetBestScoreCommand}"
-        IsRefreshing="{Binding IsRefreshing}">
+        Command="{Binding GetBestScoreCommand}" >
+        <!--IsRefreshing="{Binding IsRefreshing}"-->
+           
                 <ContentView>
 
                 <CollectionView

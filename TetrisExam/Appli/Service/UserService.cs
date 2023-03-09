@@ -8,26 +8,36 @@ using System.Threading.Tasks;
 using TetrisExam.Appli.Model;
 using System.Net.Http.Json;
 using System.Threading;
+using TetrisExam.Appli.Model.SqlLite;
+using SQLite;
+using Microsoft.Maui.Networking;
 
 namespace TetrisExam.Appli.Service
 {
-    public class UserService
+    public class UserService : IUserService 
     {
         private string _url = "https://localhost:7267/api/User";
-
+      
         private HttpClient _httpClient;
         private JsonSerializerOptions _serializerOptions;
+       
+       
+
+
         public UserService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+           
             _serializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true
             };
+
         }
 
-       
+    
+
         public async Task<User> Login(Login login)
         {
             try
@@ -41,13 +51,13 @@ namespace TetrisExam.Appli.Service
                     return await response.Content.ReadFromJsonAsync<User>();
                 }
                 return null;
+                        
             }
             catch (Exception ex)
             {
 
                 throw ex;
-            }
-         
+            }  
           
         }
 
@@ -55,14 +65,16 @@ namespace TetrisExam.Appli.Service
         {
             try
             {
-                string json = JsonSerializer.Serialize(register, _serializerOptions);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync(_url, content);
+               
+                    string json = JsonSerializer.Serialize(register, _serializerOptions);
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                    var response = await _httpClient.PostAsync(_url, content);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<User>();
-                }
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadFromJsonAsync<User>();
+                    }
+                
                 return null;
             }
             catch (Exception ex)
@@ -92,5 +104,6 @@ namespace TetrisExam.Appli.Service
             }
         }
 
+       
     }
 }

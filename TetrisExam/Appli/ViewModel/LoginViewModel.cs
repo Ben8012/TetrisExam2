@@ -15,9 +15,9 @@ namespace TetrisExam.Appli.ViewModel
 {
     public partial class LoginViewModel : BaseViewModel
     {
-        private UserService _userService;
+        private IUserService _userService;
 
-        public LoginViewModel(UserService userService)
+        public LoginViewModel(IUserService userService)
         {
             _userService = userService;
         }

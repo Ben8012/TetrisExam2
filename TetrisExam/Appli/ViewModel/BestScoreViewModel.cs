@@ -18,22 +18,25 @@ namespace TetrisExam.Appli.ViewModel
         [ObservableProperty]
         bool isRefreshing;
 
-        private UserService _userService;
+        private IUserService _userService;
       
-        public BestScoreViewModel (UserService userService)
+        public BestScoreViewModel (IUserService userService)
         {
             _userService = userService;
-            GetBestScore();
+            //GetBestScore();
         }
 
         [RelayCommand]
-        async Task GetBestScore()
+        public async Task GetBestScore()
         {
             if (IsBusy)
                 return;
 
             try
             {
+                IsBusy = true;
+            
+
                 List<User>users = await _userService.GetAllUsers();
                 users = users.OrderBy(x => x.Point).ToList();
 
@@ -56,7 +59,7 @@ namespace TetrisExam.Appli.ViewModel
         }
 
         [RelayCommand]
-        async Task Back()
+        public async Task Back()
         {
             if (IsBusy)
                 return;

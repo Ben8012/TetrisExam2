@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Networking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,17 @@ namespace TetrisExam.Appli.ViewModel
 {
     public partial class RegisterViewModel : BaseViewModel
     {
-        private UserService _userService;
+        private IUserService _userService;
+        private UserServiceSqlLite _userServiceSqlLite;
 
-        public RegisterViewModel(UserService userService)
+        private IConnectivity _connectivity;
+
+        public RegisterViewModel(IUserService userService, UserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
         {
             _userService = userService;
-
+            _userServiceSqlLite = userServiceSqlLite;
+            _connectivity = connectivity;
+            
         }
 
         [ObservableProperty]
@@ -43,7 +49,17 @@ namespace TetrisExam.Appli.ViewModel
                     register.Password = _password;
                     register.Name = _name;
 
-                    User user = await _userService.Register(register);
+                    User user = new User();
+
+                    if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                    {
+                        user = _userServiceSqlLite.Register(register);
+                    }
+                    else
+                    {
+                        user = await _userService.Register(register);
+                    }
+
 
                     if (user != null)
                     {
