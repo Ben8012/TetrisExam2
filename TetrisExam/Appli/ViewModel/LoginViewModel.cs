@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -30,7 +31,7 @@ namespace TetrisExam.Appli.ViewModel
 
 
         [RelayCommand]
-        async void Login()
+        public async Task Login()
         {
             try
             {
@@ -44,6 +45,7 @@ namespace TetrisExam.Appli.ViewModel
 
                 User user = await _userService.Login(login);
 
+                // mettre la redirection en commentaire pour le test du login ?? 
                 if (user != null)
                 {
                     await Shell.Current.GoToAsync(nameof(ProfilPage), true, new Dictionary<string, object>

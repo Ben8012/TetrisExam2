@@ -21,6 +21,7 @@ namespace TetrisExamen.Test
             {
                 mock.Setup(m => m.GetAllUsers()).ReturnsAsync(Users);
                 BestScoreViewModel vm = new BestScoreViewModel(mock.Object);
+                
                 await vm.GetBestScore();
                
             }
@@ -29,8 +30,28 @@ namespace TetrisExamen.Test
 
                 throw ex;
             }
-           
+        }
 
+        [Fact]
+        public async Task TestLogin()
+        {
+            User user = new User();
+            Login login = new Login();
+            login.Email = "tim@mail.com";
+            login.Password = "test1234=";
+            try
+            {
+
+                mock.Setup(m => m.Login(login)).ReturnsAsync(user);
+                LoginViewModel vm = new LoginViewModel(mock.Object);
+
+                await vm.Login();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
