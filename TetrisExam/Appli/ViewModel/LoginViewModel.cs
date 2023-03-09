@@ -37,27 +37,29 @@ namespace TetrisExam.Appli.ViewModel
             {
                 //    if (!string.IsNullOrWhiteSpace(_email) && !string.IsNullOrWhiteSpace(_password))
                 //    {
-                Login login = new Login();
-                login.Email = "tim@mail.com";
-                login.Password = "test1234=";
-                //login.Email = _email;
-                //login.Password = _password;
 
-                User user = await _userService.Login(login);
+                    // Pour faire un connection sans devoir encoder l email et le mot de passe
+                    Login login = new Login();
+                    login.Email = "tim@mail.com";
+                    login.Password = "test1234=";
+                    //login.Email = _email;
+                    //login.Password = _password;
 
-                // mettre la redirection en commentaire pour le test du login
-                if (user != null)
-                {
-                    await Shell.Current.GoToAsync(nameof(ProfilPage), true, new Dictionary<string, object>
-                        {
-                            {"User", user }
-                        });
-                }
+                    User user = await _userService.Login(login);
+
+                    // mettre la redirection en commentaire pour le test du login
+                    if (user != null)
+                    {
+                        await Shell.Current.GoToAsync(nameof(ProfilPage), true, new Dictionary<string, object>
+                            {
+                                {"User", user }
+                            });
+                    }
                 //}
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Message", ex);
             }
         }
 

@@ -15,14 +15,13 @@ namespace TetrisExam.Appli.ViewModel
     public partial class RegisterViewModel : BaseViewModel
     {
         private IUserService _userService;
-        private UserServiceSqlLite _userServiceSqlLite;
+       
 
         private IConnectivity _connectivity;
 
-        public RegisterViewModel(IUserService userService, UserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
+        public RegisterViewModel(IUserService userService, IConnectivity connectivity)
         {
             _userService = userService;
-            _userServiceSqlLite = userServiceSqlLite;
             _connectivity = connectivity;
             
         }
@@ -53,7 +52,7 @@ namespace TetrisExam.Appli.ViewModel
 
                     if (_connectivity.NetworkAccess != NetworkAccess.Internet)
                     {
-                        user = _userServiceSqlLite.Register(register);
+                        user = await _userService.Register(register);
                     }
                     else
                     {
@@ -72,7 +71,7 @@ namespace TetrisExam.Appli.ViewModel
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Message", ex);
             }
         }
 

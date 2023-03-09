@@ -27,10 +27,9 @@ namespace TetrisExam.Appli.ViewModel
             {
                 await Shell.Current.GoToAsync(nameof(RegisterPage));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception("Message", ex);
             }
         }
 
@@ -45,8 +44,7 @@ namespace TetrisExam.Appli.ViewModel
             }
             catch (Exception ex )
             {
-
-                throw;
+                throw new Exception("Message", ex);
             }
         }
 
@@ -61,8 +59,7 @@ namespace TetrisExam.Appli.ViewModel
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw new Exception("Message", ex);
             }
         }
     }

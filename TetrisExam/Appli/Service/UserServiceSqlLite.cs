@@ -10,11 +10,11 @@ using TetrisExam.Appli.Model.SqlLite;
 
 namespace TetrisExam.Appli.Service
 {
-    public class UserServiceSqlLite
+    public class UserServiceSqlLite : IUserServiceSqlLite
     {
         private string _dbPath;
 
-        private SQLiteConnection conn;
+        private SQLiteAsyncConnection conn;
 
         public UserServiceSqlLite(string dbPath)
         {
@@ -26,31 +26,31 @@ namespace TetrisExam.Appli.Service
             if (conn != null)
                 return;
 
-            conn = new SQLiteConnection(_dbPath);
-            conn.CreateTable<UserSqlLite>();
+            conn = new SQLiteAsyncConnection(_dbPath);
+            conn.CreateTableAsync<UserSqlLite>();
         }
 
-        public User Login(Login login)
+        public async Task<User> Login(Login login)
         {
             try
             {
-                if (string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password) )
+                if (string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
                     throw new Exception("Valid name, password, email required");
 
                 User user = new User();
-                return user;
+                return  user;
 
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                throw new Exception("Message", ex);
             }
 
         }
 
 
-        public User Register(Register register)
+        public async Task<User> Register(Register register)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace TetrisExam.Appli.Service
                     throw new Exception("Valid name, password, email required");
 
                 // TODO: Insert the new person into the database
-                result = conn.Insert(new UserSqlLite
+                result = await conn.InsertAsync(new UserSqlLite
                 {
                     Name = register.Name,
                     Email = register.Email,
@@ -83,17 +83,16 @@ namespace TetrisExam.Appli.Service
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("Message",ex);
             }
         }
 
-        public List<User> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
             try
             {
                 Init();
-                List<UserSqlLite> users = conn.Table<UserSqlLite>().ToList();
+                List<UserSqlLite> users = await conn.Table<UserSqlLite>().ToListAsync();
 
                 List<User> list = new List<User>();
 
@@ -114,8 +113,7 @@ namespace TetrisExam.Appli.Service
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("Message", ex);
             }
         }
 

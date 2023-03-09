@@ -7,7 +7,7 @@ using TetrisExam.Appli.Model;
 
 namespace TetrisExam.Appli.Service
 {
-    public interface IUserService 
+    public interface IUserServiceSqlLite
     {
         public Task<User> Login(Login login);
         public Task<User> Register(Register register);

@@ -32,13 +32,11 @@ public partial class ProfilViewModel : BaseViewModel
     {
         try
         {
-
             await Shell.Current.GoToAsync("..") ;
         }
         catch (Exception ex)
         {
-
-            throw ex;
+            throw new Exception("Message", ex);
         }
         
     }

@@ -55,8 +55,7 @@ namespace TetrisExam.Appli.Service
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("Message", ex);
             }  
           
         }
@@ -79,8 +78,7 @@ namespace TetrisExam.Appli.Service
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("Message", ex);
             }
         }
 
@@ -88,7 +86,7 @@ namespace TetrisExam.Appli.Service
         {
             try
             {
-                
+
                 var response = await _httpClient.GetAsync(_url);
 
                 if (response.IsSuccessStatusCode)
@@ -99,11 +97,9 @@ namespace TetrisExam.Appli.Service
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("Message", ex);
             }
         }
-
        
     }
 }

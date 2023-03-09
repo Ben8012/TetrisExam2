@@ -40,8 +40,9 @@ public static class MauiProgram
         builder.Services.AddScoped< IUserService, UserService >();
 		builder.Services.AddTransient<HttpClient>();
 
+		
         string dbPath = FileAccessHelper.GetLocalFilePath("user.db3");
-        builder.Services.AddSingleton<UserServiceSqlLite>(s => ActivatorUtilities.CreateInstance<UserServiceSqlLite>(s, dbPath));
+        builder.Services.AddSingleton< IUserServiceSqlLite, UserServiceSqlLite >(s => ActivatorUtilities.CreateInstance<UserServiceSqlLite>(s, dbPath));
 
         builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
 

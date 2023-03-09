@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,11 +20,18 @@ namespace TetrisExam.Appli.ViewModel
         bool isRefreshing;
 
         private IUserService _userService;
-      
-        public BestScoreViewModel (IUserService userService)
+        private IConnectivity _connectivity;
+        private IUserServiceSqlLite _userServiceSqlLite;
+
+        private List<User> users = new List<User>();
+
+        public BestScoreViewModel (IUserService userService, IUserServiceSqlLite userServiceSqlLite)
         {
             _userService = userService;
+            //_connectivity = connectivity;
+            _userServiceSqlLite = userServiceSqlLite;
             //GetBestScore();
+            
         }
 
         [RelayCommand]
@@ -32,30 +40,43 @@ namespace TetrisExam.Appli.ViewModel
             if (IsBusy)
                 return;
 
-            try
-            {
-                IsBusy = true;
-            
+            IsBusy = true;
+            //if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            //{  
+                try
+                {
+                    users = await _userServiceSqlLite.GetAllUsers();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Message", ex);
+                }
+            //}
+            //else
+            //{
+                try
+                {
+                    users = await _userService.GetAllUsers();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Message", ex);
+}
+                
+            //}
 
-                List<User>users = await _userService.GetAllUsers();
-                users = users.OrderBy(x => x.Point).ToList();
+            users = users.OrderBy(x => x.Point).ToList();
 
-                if (Users.Count != 0)
-                    Users.Clear();
+            if (Users.Count != 0)
+                Users.Clear();
 
-                foreach (var user in users)
-                    Users.Add(user);
-            }
-            catch (Exception ex)
-            {
+            foreach (var user in users)
+                Users.Add(user);
 
-                throw ex;
-            }
-            finally 
-            { 
-                IsBusy = false;
-                IsRefreshing = false;
-            }
+
+            IsBusy = false;
+            IsRefreshing = false;
+
         }
 
         [RelayCommand]
@@ -68,10 +89,9 @@ namespace TetrisExam.Appli.ViewModel
             {
                 await Shell.Current.GoToAsync("..");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception("Message", ex);
             }
             finally
             {

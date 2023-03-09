@@ -4,23 +4,26 @@ using TetrisExam.Appli.Model;
 using TetrisExam.Appli.Service;
 using TetrisExam.Appli.ViewModel;
 
+
 namespace TetrisExamen.Test
 {
     
     public class UnitTest1 
     {
         public Mock<IUserService> mock = new Mock<IUserService>();
-
+        public Mock<IUserServiceSqlLite> mock2 = new Mock<IUserServiceSqlLite>();
        
 
         [Fact]
         public async Task TestGetBestScore()
         {
             List<User> Users = new List<User>();
+          
             try
             {
+               
                 mock.Setup(m => m.GetAllUsers()).ReturnsAsync(Users);
-                BestScoreViewModel vm = new BestScoreViewModel(mock.Object);
+                BestScoreViewModel vm = new BestScoreViewModel(mock.Object,mock2.Object);
                 
                 await vm.GetBestScore();
                
