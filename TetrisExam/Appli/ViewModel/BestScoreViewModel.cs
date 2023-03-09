@@ -43,29 +43,29 @@ namespace TetrisExam.Appli.ViewModel
             IsBusy = true;
             //if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             //{  
-                try
-                {
-                    users = await _userServiceSqlLite.GetAllUsers();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Message", ex);
-                }
+            //try
+            //{
+            //    users = await _userServiceSqlLite.GetAllUsers();
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("Message", ex);
+            //}
             //}
             //else
             //{
-                try
-                {
-                    users = await _userService.GetAllUsers();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Message", ex);
-}
-                
+            try
+            {
+                users = await _userService.GetAllUsers();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Message", ex);
+            }
+        
             //}
 
-            users = users.OrderBy(x => x.Point).ToList();
+            users = users.OrderByDescending(x => x.Point).ToList();
 
             if (Users.Count != 0)
                 Users.Clear();
