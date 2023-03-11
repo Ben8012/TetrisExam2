@@ -66,8 +66,8 @@ namespace TetrisExam.Appli.Service
                     Name = register.Name,
                     Email = register.Email,
                     Password = register.Password,
-                    Point = 0,
-                    IsActive = true
+                    Point =  register.Point > 0 ?  0 : register.Point
+
                 });
 
                 User user = new User
@@ -117,8 +117,15 @@ namespace TetrisExam.Appli.Service
             }
         }
 
+        public Task<User> Update(Update update)
+        {
+            throw new NotImplementedException();
+        }
 
-
+        public Task Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }    
 
 }
