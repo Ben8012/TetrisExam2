@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TetrisExam.Appli.Model;
+using TetrisExam.Appli.Service;
 using TetrisExam.Appli.View;
 
 namespace TetrisExam.Appli.ViewModel;
@@ -18,14 +19,78 @@ public partial class ProfilViewModel : BaseViewModel
     [ObservableProperty]
     User user;
 
+   
+
+    private IUserService _userService;
+    public ProfilViewModel(IUserService userService)
+    {
+        _userService= userService;
+    }
+
     [RelayCommand]
     async Task Game()
     {
         await Shell.Current.GoToAsync(nameof(GamePage), true, new Dictionary<string, object>
                     {
-                        {"User", user }
+                        {"User", User }
                     });
     }
+
+
+    [RelayCommand]
+    async void Update()
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(User.Email)  && !string.IsNullOrWhiteSpace(User.Name))
+            {
+                Update update = new Update();
+                update.Email = User.Email;
+                update.Id = User.Id;
+                update.Name = User.Name;
+
+                User user = new User();
+
+                //if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                //{
+                //    user = await _userService.Register(register);
+                //}
+                //else
+                //{
+                    user = await _userService.Update(update);
+                //}
+
+
+                //if (user != null)
+                //{
+                //    await Shell.Current.GoToAsync(nameof(ProfilPage), true, new Dictionary<string, object>
+                //        {
+                //            {"User", user }
+                //        });
+                //}
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Message", ex);
+        }
+    }
+
+
+    [RelayCommand]
+    async Task Delete()
+    {
+        try
+        {
+            await _userService.Delete(User.Id);
+            await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Message", ex);
+        }
+    }
+
 
     [RelayCommand]
     async Task Back()

@@ -4,15 +4,17 @@
              x:Class="TetrisExam.Appli.View.ProfilPage"
              xmlns:viewmodel="clr-namespace:TetrisExam.Appli.ViewModel"
              x:DataType="viewmodel:ProfilViewModel"
+             xmlns:handlers="clr-namespace:TetrisExam.Handlers"
              Title="{Binding User.Name}">
     <ScrollView>
 
         <VerticalStackLayout    Spacing="25"
                                 Padding="30,0"
-                                VerticalOptions="Center">
-
+                                VerticalOptions="Center"
+                                >
+        
             <Label Text="{Binding User.Name, StringFormat='Welcome {0}'}"  FontSize="28" TextColor="Gray" HorizontalTextAlignment="Center"/>
-            <Label Text="{Binding User.Point, StringFormat='Your best point is {0}'}" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
+            <Label Text="{Binding User.Email, StringFormat='Your best point is {0}'}" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
             <Button Text="Play"   
                     Command="{Binding GameCommand}"
                     IsEnabled="{Binding IsNotBusy}"    
@@ -25,6 +27,33 @@
                     Margin="8"
                     WidthRequest="100" CornerRadius="20" HorizontalOptions="Center"
                     />
+
+
+
+            <VerticalStackLayout Spacing="5" >
+                <Label Text="Profil" FontSize="28" TextColor="Gray" HorizontalTextAlignment="Center" />
+                <Label Text="Update your account" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <StackLayout Orientation="Horizontal" WidthRequest="500" >
+
+
+                <Entry Text="{Binding User.Name}" Margin="20,0,0,0" VerticalOptions="Center"  HorizontalTextAlignment="Center"  WidthRequest="300"/>
+                
+            </StackLayout>
+
+
+            <StackLayout Orientation="Horizontal" WidthRequest="500" >
+
+
+                <Entry Text="{Binding User.Email}" Margin="20,0,0,0" VerticalOptions="Center" HorizontalTextAlignment="Center"  WidthRequest="300" />
+               
+            </StackLayout>
+        
+
+            <Button Text="Update" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding UpdateCommand}" />
+            <Button Text="Delete" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding DeleteCommand}" />
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

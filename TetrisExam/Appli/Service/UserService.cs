@@ -11,6 +11,7 @@ using System.Threading;
 using TetrisExam.Appli.Model.SqlLite;
 using SQLite;
 using Microsoft.Maui.Networking;
+using Microsoft.Win32;
 
 namespace TetrisExam.Appli.Service
 {
@@ -100,6 +101,42 @@ namespace TetrisExam.Appli.Service
                 throw new Exception("Message", ex);
             }
         }
-       
+
+        public async Task<User> Update(Update update)
+        {
+            try
+            {
+
+                string json = JsonSerializer.Serialize(update, _serializerOptions);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync(_url + "/" + update.Id, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<User>();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Message", ex);
+            }
+
+        }
+
+
+        public async Task Delete(int id)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync(_url + "/" + id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Message", ex);
+            }
+
+        }
     }
 }

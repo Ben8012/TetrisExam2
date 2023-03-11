@@ -25,12 +25,12 @@ namespace TetrisExam.Appli.ViewModel
 
         private List<User> users = new List<User>();
 
-        public BestScoreViewModel (IUserService userService, IUserServiceSqlLite userServiceSqlLite)
+        public BestScoreViewModel (IUserService userService, IUserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
         {
             _userService = userService;
-            //_connectivity = connectivity;
+            _connectivity = connectivity;
             _userServiceSqlLite = userServiceSqlLite;
-            //GetBestScore();
+            GetBestScore();
             
         }
 
@@ -41,29 +41,29 @@ namespace TetrisExam.Appli.ViewModel
                 return;
 
             IsBusy = true;
-            //if (_connectivity.NetworkAccess != NetworkAccess.Internet)
-            //{  
-            //try
-            //{
-            //    users = await _userServiceSqlLite.GetAllUsers();
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception("Message", ex);
-            //}
-            //}
-            //else
-            //{
-            try
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             {
-                users = await _userService.GetAllUsers();
+                try
+                {
+                    users = await _userServiceSqlLite.GetAllUsers();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Message", ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception("Message", ex);
-            }
+                try
+                {
+                    users = await _userService.GetAllUsers();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Message", ex);
+                }
         
-            //}
+            }
 
             users = users.OrderByDescending(x => x.Point).ToList();
 

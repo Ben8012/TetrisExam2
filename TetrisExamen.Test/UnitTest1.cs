@@ -12,7 +12,8 @@ namespace TetrisExamen.Test
     {
         public Mock<IUserService> mock = new Mock<IUserService>();
         public Mock<IUserServiceSqlLite> mock2 = new Mock<IUserServiceSqlLite>();
-       
+
+        // untiliser Assert
 
         [Fact]
         public async Task TestGetBestScore()
@@ -50,10 +51,10 @@ namespace TetrisExamen.Test
 
                 await vm.Login();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
     }

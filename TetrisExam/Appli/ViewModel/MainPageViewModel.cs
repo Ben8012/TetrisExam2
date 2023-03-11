@@ -11,11 +11,11 @@ namespace TetrisExam.Appli.ViewModel
 {
     public partial class MainPageViewModel : BaseViewModel
     {
-
-
+       
         public MainPageViewModel()
         {
             Title = "Tetris";
+            // ici mise a jour sql lite
         }
 
         [RelayCommand]
