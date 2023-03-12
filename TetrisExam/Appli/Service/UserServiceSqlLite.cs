@@ -32,11 +32,13 @@ namespace TetrisExam.Appli.Service
 
         public async Task<User> Login(Login login)
         {
+            Init();
             try
             {
                 if (string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
                     throw new Exception("Valid name, password, email required");
 
+                // A faire 
                 User user = new User();
                 return  user;
 
@@ -56,17 +58,17 @@ namespace TetrisExam.Appli.Service
             {
                 Init();
                 int result = 0;
-                // basic validation to ensure a name was entered
-                if (string.IsNullOrEmpty(register.Name) || string.IsNullOrEmpty(register.Password) || string.IsNullOrEmpty(register.Email))
-                    throw new Exception("Valid name, password, email required");
+                // Validation du champ nom et email
+                if (string.IsNullOrEmpty(register.Name)  || string.IsNullOrEmpty(register.Email))
+                    throw new Exception("Valid name, email required");
 
-                // TODO: Insert the new person into the database
+                // insertion dans sqlLite
                 result = await conn.InsertAsync(new UserSqlLite
                 {
                     Name = register.Name,
                     Email = register.Email,
                     Password = register.Password,
-                    Point =  register.Point > 0 ?  0 : register.Point
+                    Point =  register.Point <= 0 ?  0 : register.Point
 
                 });
 
@@ -119,13 +121,35 @@ namespace TetrisExam.Appli.Service
 
         public Task<User> Update(Update update)
         {
+            Init();
+            // A faire !!
             throw new NotImplementedException();
         }
 
-        public Task Delete(int id)
+        public async Task<int> Delete(User user)
         {
-            throw new NotImplementedException();
+            Init();
+            UserSqlLite userSqlLite = new UserSqlLite()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Point = user.Point,
+                IsActive = user.IsActive
+            };
+
+           return  await conn.DeleteAsync(userSqlLite);
         }
+
+    
+        public async Task Delete()
+        {
+            Init();
+            await conn.DeleteAllAsync<UserSqlLite>();
+           
+        }
+
+      
     }    
 
 }

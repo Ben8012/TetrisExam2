@@ -9,12 +9,6 @@
             
              Title="BestScorePage">
 
-
-  
-      
-    
-        
-
         <Grid
         ColumnDefinitions="*,*"
         ColumnSpacing="5"
@@ -22,9 +16,6 @@
         RowSpacing="0"
         Margin="8"    >
             
-
-
-
 
         <Button  Grid.Row="1" Grid.ColumnSpan="1" Text="Back"   
                     Command="{Binding BackCommand}"
@@ -43,51 +34,45 @@
         <RefreshView
         Grid.ColumnSpan="2"
         Command="{Binding GetBestScoreCommand}" >
-        <!--IsRefreshing="{Binding IsRefreshing}"-->
-           
-                <ContentView>
+            <!--IsRefreshing="{Binding IsRefreshing}"-->
+
+            <ContentView>
 
                 <CollectionView
                     ItemsSource="{Binding Users}"
                     SelectionMode="None">
 
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical" />
-                        </CollectionView.ItemsLayout>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="model:User">
-                                <Grid Padding="10">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:User">
+                            <Grid Padding="10">
                                 <Frame HeightRequest="125" WidthRequest="500" HorizontalOptions="Center" Style="{StaticResource CardView}">
 
-                                        <Grid Padding="0" ColumnDefinitions="125,*">
+                                    <Grid Padding="0" ColumnDefinitions="125,*">
 
-                                            <VerticalStackLayout
+                                        <VerticalStackLayout
                                             Grid.Column="1"  
                                             Grid.Row="2"
                                             Padding="10">
-                                                <Label Style="{StaticResource LargeLabel}" Text="{Binding Name, StringFormat='Name : {0}'}"  FontSize="28" TextColor="Gray"  />
-                                                <Label Style="{StaticResource MediumLabel}" Text="{Binding Point, StringFormat='Best Point : {0}'}"  FontSize="28" TextColor="Gray" />
-                                                
-                                            </VerticalStackLayout>
-                                        </Grid>
-                                    </Frame>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
+                                            <Label Style="{StaticResource LargeLabel}" Text="{Binding Name, StringFormat='Name : {0}'}"  FontSize="28" TextColor="Gray"  />
+                                            <Label Style="{StaticResource MediumLabel}" Text="{Binding Point, StringFormat='Best Point : {0}'}"  FontSize="28" TextColor="Gray" />
+
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
 
-                    </CollectionView>
+                </CollectionView>
 
-                </ContentView>
-            </RefreshView>
+            </ContentView>
+        </RefreshView>
 
+    </Grid>
 
-        </Grid>
-
-    
-   
-      
-
-    
 </ContentPage>

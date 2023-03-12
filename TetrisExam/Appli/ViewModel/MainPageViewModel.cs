@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace TetrisExam.Appli.ViewModel
     {
         private IUserService _userService;
         private IUserServiceSqlLite _userServiceSqlLite;
-        private IConnectivity _connectivity
+        private IConnectivity _connectivity;
 
-        private List<UserSqlLite> usersSqlLite = new List<UserSqlLite>();
+        private List<Register> registers = new List<Register>();
         private List<User> usersDB = new List<User>();
 
         public MainPageViewModel(IUserService userService, IUserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
@@ -29,26 +30,36 @@ namespace TetrisExam.Appli.ViewModel
             _connectivity= connectivity;
 
             // ici mise a jour sql lite
-            UpdateSqlLite();
+            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                UpdateSqlLite();
+            }
         }
 
         private async Task UpdateSqlLite()
         {
             usersDB = await _userService.GetAllUsers();
+
+            if(usersDB.Count > 0)
+            {
+                _userServiceSqlLite.Delete();
+               
+            }
+
             foreach (User user in usersDB)
             {
-                usersSqlLite.Add(new UserSqlLite
+                Register register = new Register
                 {
-                    Id= user.Id,
+                    
                     Name=user.Name,
                     Email=user.Email,
                     Point=user.Point,
-                    
-                });
+                    IsActive= user.IsActive
+                };
+
+                User result = await _userServiceSqlLite.Register(register);
             }
 
-
-           
         }
 
         [RelayCommand]

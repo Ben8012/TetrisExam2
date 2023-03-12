@@ -15,13 +15,14 @@ namespace TetrisExam.Appli.ViewModel
     public partial class RegisterViewModel : BaseViewModel
     {
         private IUserService _userService;
-       
+        private IUserServiceSqlLite _userServiceSqlLite;
 
         private IConnectivity _connectivity;
 
-        public RegisterViewModel(IUserService userService, IConnectivity connectivity)
+        public RegisterViewModel(IUserService userService,IUserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
         {
             _userService = userService;
+            _userServiceSqlLite= userServiceSqlLite;
             _connectivity = connectivity;
             
         }
@@ -44,18 +45,22 @@ namespace TetrisExam.Appli.ViewModel
                 if (!string.IsNullOrWhiteSpace(_email) && !string.IsNullOrWhiteSpace(_password) && !string.IsNullOrWhiteSpace(_name))
                 {
                     Register register = new Register();
-                    register.Email = _email;
-                    register.Password = _password;
+                    register.Email = _email;               
                     register.Name = _name;
+
+
+                    
 
                     User user = new User();
 
                     if (_connectivity.NetworkAccess != NetworkAccess.Internet)
                     {
-                        user = await _userService.Register(register);
+                        register.Password = BCrypt.Net.BCrypt.HashPassword(_password);
+                        user = await _userServiceSqlLite.Register(register);
                     }
                     else
                     {
+                        register.Password = _password;
                         user = await _userService.Register(register);
                     }
 

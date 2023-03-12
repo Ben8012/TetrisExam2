@@ -51,23 +51,8 @@ public partial class ProfilViewModel : BaseViewModel
 
                 User user = new User();
 
-                //if (_connectivity.NetworkAccess != NetworkAccess.Internet)
-                //{
-                //    user = await _userService.Register(register);
-                //}
-                //else
-                //{
-                    user = await _userService.Update(update);
-                //}
-
-
-                //if (user != null)
-                //{
-                //    await Shell.Current.GoToAsync(nameof(ProfilPage), true, new Dictionary<string, object>
-                //        {
-                //            {"User", user }
-                //        });
-                //}
+                user = await _userService.Update(update);
+                
             }
         }
         catch (Exception ex)

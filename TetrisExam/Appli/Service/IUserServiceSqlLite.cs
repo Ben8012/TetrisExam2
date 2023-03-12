@@ -12,8 +12,10 @@ namespace TetrisExam.Appli.Service
         public Task<User> Login(Login login);
         public Task<User> Register(Register register);
         public Task<User> Update(Update update);
-        public Task Delete(int id);
+        public Task<int> Delete(User user);
 
         public Task<List<User>> GetAllUsers();
+
+        public Task Delete();
     }
 }

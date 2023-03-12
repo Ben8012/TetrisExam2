@@ -17,10 +17,14 @@ namespace TetrisExam.Appli.ViewModel
     public partial class LoginViewModel : BaseViewModel
     {
         private IUserService _userService;
+        private IUserServiceSqlLite _userServiceSqlLite;
+        private IConnectivity _connectivity;
 
-        public LoginViewModel(IUserService userService)
+        public LoginViewModel(IUserService userService, IUserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
         {
             _userService = userService;
+            _userServiceSqlLite = userServiceSqlLite;
+            _connectivity = connectivity;
         }
 
         [ObservableProperty]
@@ -35,17 +39,14 @@ namespace TetrisExam.Appli.ViewModel
         {
             try
             {
-                //    if (!string.IsNullOrWhiteSpace(_email) && !string.IsNullOrWhiteSpace(_password))
-                //    {
+                // Pour faire un connection sans devoir encoder l email et le mot de passe
+                Login login = new Login();
+                login.Email = "tim@mail.com";
+                login.Password = "test1234=";
+                //login.Email = _email;
+                //login.Password = _password;
 
-                    // Pour faire un connection sans devoir encoder l email et le mot de passe
-                    Login login = new Login();
-                    login.Email = "tim@mail.com";
-                    login.Password = "test1234=";
-                    //login.Email = _email;
-                    //login.Password = _password;
-
-                    User user = await _userService.Login(login);
+                User user = await _userService.Login(login);
 
                 // mettre la redirection en commentaire pour le test du login
                 if (user != null)
@@ -55,7 +56,7 @@ namespace TetrisExam.Appli.ViewModel
                                 {"User", user }
                             });
                 }
-                //}
+               
             }
             catch (Exception ex)
             {

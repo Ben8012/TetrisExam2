@@ -50,6 +50,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="BCrypt-Official" Version="0.1.109" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 	  <PackageReference Include="DevExpress.Data" Version="22.2.4" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />

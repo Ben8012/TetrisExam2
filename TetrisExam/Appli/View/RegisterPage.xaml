@@ -12,8 +12,6 @@
             VerticalOptions="Center"
             >
 
-        <!--<Image Source="company_logo.jpg" HeightRequest="150" WidthRequest="150" />-->
-
         <VerticalStackLayout Spacing="5" >
             <Label Text="Welcome!" FontSize="28" TextColor="Gray" HorizontalTextAlignment="Center" />
             <Label Text="Create your account" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
@@ -41,11 +39,6 @@
         </StackLayout>
 
         <Button Text="Sign In" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding RegisterCommand}" />
-
-        <!--<StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="Center">
-            <Label Text="Don't have account?" TextColor="Gray" />
-            <Label Text="Sign Up here" TextColor="#50b3f2" />
-        </StackLayout>-->
 
         <Button Text="Back"   
                     Command="{Binding BackCommand}"
