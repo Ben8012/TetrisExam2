@@ -40,14 +40,15 @@ namespace TetrisExam.Appli.Service
 
                 // A faire 
                 UserSqlLite userSqlLite = await conn.GetAsync<UserSqlLite>(user => user.Email == login.Email);
-                
+
 
                 // bool verified = BCrypt.Net.BCrypt.Verify(login.Password, userSqlLite.Password);
 
                 //if (verified)
                 //{
-                    User user = new User
-                    {
+                User user = new User
+                {
+                        Id = userSqlLite.Id,
                         Name = userSqlLite.Name,
                         Email = userSqlLite.Email,
                         Point = userSqlLite.Point,
@@ -56,7 +57,8 @@ namespace TetrisExam.Appli.Service
                     };
                     return user;
                 //}
-                return null;
+
+                //return null;
                 
 
             }
@@ -139,11 +141,31 @@ namespace TetrisExam.Appli.Service
             }
         }
 
-        public Task<User> Update(Update update)
+        public async Task<User> Update(Update update)
         {
             Init();
-            // A faire !!
-            throw new NotImplementedException();
+            //UserSqlLite userSqlLite = await conn.GetAsync<UserSqlLite>(user => user.Email == login.Email);
+            
+            UserSqlLite userSqlLite = new UserSqlLite
+            {
+                Id= update.Id,
+                Name = update.Name,
+                Email = update.Email,
+            };
+
+            await conn.UpdateAsync(userSqlLite);
+            UserSqlLite userSqlLite2 = await conn.GetAsync<UserSqlLite>(user => user.Email == update.Email);
+
+            User user = new User
+            {
+                Name = userSqlLite2.Name,
+                Email = userSqlLite2.Email,
+                Point = userSqlLite2.Point,
+                IsActive = userSqlLite2.IsActive,
+                Token = ""
+            };
+
+            return user;
         }
 
         public async Task<int> Delete(User user)

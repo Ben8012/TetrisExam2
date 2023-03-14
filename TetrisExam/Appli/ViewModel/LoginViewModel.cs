@@ -20,7 +20,11 @@ namespace TetrisExam.Appli.ViewModel
         private IUserServiceSqlLite _userServiceSqlLite;
         private IConnectivity _connectivity;
 
-        public LoginViewModel(IUserService userService, IUserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
+        public LoginViewModel(
+            IUserService userService,
+            IUserServiceSqlLite userServiceSqlLite,
+            IConnectivity connectivity
+            )
         {
             _userService = userService;
             _userServiceSqlLite = userServiceSqlLite;

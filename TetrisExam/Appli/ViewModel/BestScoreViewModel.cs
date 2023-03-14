@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TetrisExam.Appli.Model;
 using TetrisExam.Appli.Service;
+//using Microsoft.Maui.Essentials;
 
 namespace TetrisExam.Appli.ViewModel
 {
@@ -25,7 +26,11 @@ namespace TetrisExam.Appli.ViewModel
 
         private List<User> users = new List<User>();
 
-        public BestScoreViewModel (IUserService userService, IUserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
+        public BestScoreViewModel (
+            IUserService userService,
+            IUserServiceSqlLite userServiceSqlLite,
+            IConnectivity connectivity
+            )
         {
             _userService = userService;
             _connectivity = connectivity;

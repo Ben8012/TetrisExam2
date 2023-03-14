@@ -22,9 +22,13 @@ public partial class ProfilViewModel : BaseViewModel
    
 
     private IUserService _userService;
-    public ProfilViewModel(IUserService userService)
+    private IUserServiceSqlLite _userServiceSqlLite;
+    private IConnectivity _connectivity;
+    public ProfilViewModel(IUserService userService, IUserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
     {
-        _userService= userService;
+        _userService = userService;
+        _userServiceSqlLite = userServiceSqlLite;
+        _connectivity = connectivity;
     }
 
     [RelayCommand]
@@ -46,13 +50,18 @@ public partial class ProfilViewModel : BaseViewModel
             {
                 Update update = new Update();
                 update.Email = User.Email;
-                update.Id = User.Id;
+                update.Id = user.Id;
                 update.Name = User.Name;
 
-                User user = new User();
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    user = await _userService.Update(update);
+                }
+                else
+                {
+                    user = await _userServiceSqlLite.Update(update);
+                }
 
-                user = await _userService.Update(update);
-                
             }
         }
         catch (Exception ex)
@@ -67,7 +76,16 @@ public partial class ProfilViewModel : BaseViewModel
     {
         try
         {
-            await _userService.Delete(User.Id);
+            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                await _userService.Delete(User.Id);
+            }
+            else
+            {
+                await _userServiceSqlLite.Delete(User);
+            }
+
+           
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
