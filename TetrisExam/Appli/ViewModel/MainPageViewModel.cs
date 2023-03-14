@@ -33,19 +33,23 @@ namespace TetrisExam.Appli.ViewModel
             // ici mise a jour sql lite
             if (_connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                // _userServiceSqlLite.Delete();
+                // me premet du supprimer les user dans SqlLite pour les test
+                // _userServiceSqlLite.Delete(); 
+
+                // mis a jour de sqlLite par rapport au data user en DB
                 UpdateSqlLite();
             }
         }
 
         private async Task UpdateSqlLite()
         {
-           
+            // recuperation de tout les user en DB
             usersDB = await _userService.GetAllUsers();
+            // recuperation de tout les user en Sqllite
             usersSqlLite = await _userServiceSqlLite.GetAllUsers();
 
+            // comparaison des 2 listes + insertion des user dont l'email et different en DB
             bool existe = false;
-
             foreach (var userSqlLite  in usersSqlLite )
             {
                 existe = false;
@@ -73,13 +77,14 @@ namespace TetrisExam.Appli.ViewModel
             }
 
             
-            
+            // recuperation des user en DB mis a jour 
+            usersDB = await _userService.GetAllUsers();
 
-
-
-        usersDB = await _userService.GetAllUsers();
+            // suppression des user dans SqlLite
             await _userServiceSqlLite.Delete();
 
+
+            // insertion des users de la db dans Sqllite
             foreach (var userDB in usersDB)
             {
                 Register register = new Register()
@@ -95,6 +100,8 @@ namespace TetrisExam.Appli.ViewModel
 
         }
 
+
+        // redirection vers Register
         [RelayCommand]
          async Task GoToRegister()
         {
@@ -110,6 +117,8 @@ namespace TetrisExam.Appli.ViewModel
             }
         }
 
+
+        // redirection vers Login
         [RelayCommand]
          async Task GoToLogin()
         {
@@ -125,6 +134,8 @@ namespace TetrisExam.Appli.ViewModel
             }
         }
 
+
+        // redirection vers les meilleurs scores
         [RelayCommand]
         async Task GoToBestScore()
         {

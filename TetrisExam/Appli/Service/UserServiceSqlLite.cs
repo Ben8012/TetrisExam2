@@ -21,6 +21,7 @@ namespace TetrisExam.Appli.Service
             _dbPath = dbPath;
         }
 
+        // fonction pour initialisé la connection avec SqlLit
         private void Init()
         {
             if (conn != null)
@@ -35,17 +36,20 @@ namespace TetrisExam.Appli.Service
             Init();
             try
             {
+                //verification des remplis 
                 if (string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
                     throw new Exception("Valid name, password, email required");
 
-                // A faire 
+                //recuperation du USER par son email
                 UserSqlLite userSqlLite = await conn.GetAsync<UserSqlLite>(user => user.Email == login.Email);
 
-
+                // prevu si nous renvoyons le mote de passe haché de la DB ici ce n'est pas le cas
                 // bool verified = BCrypt.Net.BCrypt.Verify(login.Password, userSqlLite.Password);
 
                 //if (verified)
                 //{
+
+                //mapping de UserSqlLite vers User pour renvoyer le bon type 
                 User user = new User
                 {
                         Id = userSqlLite.Id,
@@ -92,6 +96,7 @@ namespace TetrisExam.Appli.Service
 
                 });
 
+                //mapping de UserSqlLite vers User pour renvoyer le bon type
                 User user = new User
                 {
                     Name = register.Name,
@@ -115,10 +120,11 @@ namespace TetrisExam.Appli.Service
             try
             {
                 Init();
+                // recuperation des tout les users dans SqlLite
                 List<UserSqlLite> users = await conn.Table<UserSqlLite>().ToListAsync();
 
+                // mapping de la list des UserSqlLite en list de User afin de renvoyer le bon type de liste
                 List<User> list = new List<User>();
-
                 foreach (UserSqlLite user in users)
                 {
                     list.Add(new User
@@ -144,8 +150,8 @@ namespace TetrisExam.Appli.Service
         public async Task<User> Update(Update update)
         {
             Init();
-            //UserSqlLite userSqlLite = await conn.GetAsync<UserSqlLite>(user => user.Email == login.Email);
             
+            // mapping de Update vers  UserSqlLite inserer le bon type 
             UserSqlLite userSqlLite = new UserSqlLite
             {
                 Id= update.Id,
@@ -153,9 +159,13 @@ namespace TetrisExam.Appli.Service
                 Email = update.Email,
             };
 
+            //  modification
             await conn.UpdateAsync(userSqlLite);
+
+            // recuperation du user modifié
             UserSqlLite userSqlLite2 = await conn.GetAsync<UserSqlLite>(user => user.Email == update.Email);
 
+            // mapping de UserSqlLite en User pour renvoyer le bon type
             User user = new User
             {
                 Name = userSqlLite2.Name,
@@ -171,6 +181,7 @@ namespace TetrisExam.Appli.Service
         public async Task<int> Delete(User user)
         {
             Init();
+            // mapping de User en UserSqlLite pour effacer le user dans SqlLite 
             UserSqlLite userSqlLite = new UserSqlLite()
             {
                 Id = user.Id,
@@ -180,6 +191,8 @@ namespace TetrisExam.Appli.Service
                 IsActive = user.IsActive
             };
 
+            // suppression dans SqlLte
+
            return  await conn.DeleteAsync(userSqlLite);
         }
 
@@ -187,6 +200,7 @@ namespace TetrisExam.Appli.Service
         public async Task Delete()
         {
             Init();
+            // suppression de tout les users dans Sqlite
             await conn.DeleteAllAsync<UserSqlLite>();
            
         }

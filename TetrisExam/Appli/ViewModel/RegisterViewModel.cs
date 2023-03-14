@@ -37,6 +37,7 @@ namespace TetrisExam.Appli.ViewModel
         private string _password;
 
 
+        // enregistrement du user si connection web en DB sinon dans SqlLite recuperation du user connecter puis redirection vers profile
         [RelayCommand]
         async void Register()
         {
@@ -80,7 +81,7 @@ namespace TetrisExam.Appli.ViewModel
             }
         }
 
-
+        // retour vers la page precedante
         [RelayCommand]
         async Task Back()
         {

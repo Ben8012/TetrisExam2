@@ -39,6 +39,8 @@ namespace TetrisExam.Appli.ViewModel
             
         }
 
+
+        //  recuperation des user si connection web dans l'api si pas dans sqlLite
         [RelayCommand]
         public async Task GetBestScore()
         {
@@ -72,6 +74,7 @@ namespace TetrisExam.Appli.ViewModel
         
             }
 
+            // trier par score , max au debut de liste
             users = users.OrderByDescending(x => x.Point).ToList();
 
             if (Users.Count != 0)
@@ -86,6 +89,7 @@ namespace TetrisExam.Appli.ViewModel
 
         }
 
+        // retour vers la page precedante
         [RelayCommand]
         public async Task Back()
         {

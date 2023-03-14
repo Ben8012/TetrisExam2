@@ -12,9 +12,12 @@ using TetrisExam.Appli.Model.SqlLite;
 using SQLite;
 using Microsoft.Maui.Networking;
 using Microsoft.Win32;
+using static SQLite.SQLite3;
+using static System.Net.WebRequestMethods;
 
 namespace TetrisExam.Appli.Service
 {
+    // Service permettant de se connecter l'api afin de faire un CRUD sur User
     public class UserService : IUserService 
     {
         private string _url = "https://localhost:7267/api/User";
@@ -29,6 +32,7 @@ namespace TetrisExam.Appli.Service
         {
             _httpClient = httpClient;
            
+            // configuration de la serealisation en JSON
             _serializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -43,10 +47,14 @@ namespace TetrisExam.Appli.Service
         {
             try
             {
+                // Serealisation en JSON
                 string json = JsonSerializer.Serialize(login, _serializerOptions);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // envois vers api en POST
                 var response = await _httpClient.PostAsync(_url + "/Login", content);
 
+                // verification du status http pour renvoyer le resultat
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadFromJsonAsync<User>();
@@ -65,15 +73,18 @@ namespace TetrisExam.Appli.Service
         {
             try
             {
-               
-                    string json = JsonSerializer.Serialize(register, _serializerOptions);
-                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await _httpClient.PostAsync(_url, content);
+                // Serealisation en JSON
+                string json = JsonSerializer.Serialize(register, _serializerOptions);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadFromJsonAsync<User>();
-                    }
+                // envois vers api en POST
+                var response = await _httpClient.PostAsync(_url, content);
+
+                // verification du status http pour renvoyer le resultat
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<User>();
+                }
                 
                 return null;
             }
@@ -87,9 +98,10 @@ namespace TetrisExam.Appli.Service
         {
             try
             {
-
+                // recuperation des user en GET
                 var response = await _httpClient.GetAsync(_url);
 
+                // verification du status http pour renvoyer le resultat
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadFromJsonAsync<List<User>>();
@@ -106,11 +118,14 @@ namespace TetrisExam.Appli.Service
         {
             try
             {
-
+                // Serealisation en JSON
                 string json = JsonSerializer.Serialize(update, _serializerOptions);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // envois vers api en PUT
                 var response = await _httpClient.PutAsync(_url + "/" + update.Id, content);
 
+                // verification du status http pour renvoyer le resultat
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadFromJsonAsync<User>();
@@ -130,6 +145,7 @@ namespace TetrisExam.Appli.Service
         {
             try
             {
+                // desactivation du USER => cette fonction desactive et non supprime dans le cas ou l'on voudrait reactiver un USER
                 var response = await _httpClient.DeleteAsync(_url + "/" + id);
             }
             catch (Exception ex)

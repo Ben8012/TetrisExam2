@@ -13,4 +13,6 @@ public partial class GameViewModel : BaseViewModel
 {
     [ObservableProperty]
     User user;
+
+    // cette classe est prevue pour le jeu a faire plus tard
 }

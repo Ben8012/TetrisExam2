@@ -38,21 +38,24 @@ namespace TetrisExam.Appli.ViewModel
         private string _password;
 
 
+        
         [RelayCommand]
         public async Task Login()
         {
             try
             {
-                // Pour faire un connection sans devoir encoder l email et le mot de passe
-
                 Login login = new Login();
+                // Pour faire un connection sans devoir encoder l email et le mot de passe
                 //login.Email = "tim@mail.com";
                 //login.Password = "test1234=";
+
+
                 login.Email = _email;
                 login.Password = _password;
 
 
                 User user = new User();
+                // si connection web login vers api si pas login vers SqlLite
                 if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
                     user = await _userService.Login(login);
@@ -64,7 +67,7 @@ namespace TetrisExam.Appli.ViewModel
 
                 
 
-                // mettre la redirection en commentaire pour le test du login
+                // redirection apres le login , (mettre la redirection en commentaire pour le test du login!)
                 if (user != null)
                 {
                     await Shell.Current.GoToAsync(nameof(ProfilPage), true, new Dictionary<string, object>
@@ -80,7 +83,7 @@ namespace TetrisExam.Appli.ViewModel
             }
         }
 
-
+        // retour vers la page precedante
         [RelayCommand]
         async Task Back()
         {

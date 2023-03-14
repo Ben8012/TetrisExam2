@@ -31,6 +31,7 @@ public partial class ProfilViewModel : BaseViewModel
         _connectivity = connectivity;
     }
 
+    // redirection vers le jeu
     [RelayCommand]
     async Task Game()
     {
@@ -41,6 +42,7 @@ public partial class ProfilViewModel : BaseViewModel
     }
 
 
+    // mise a jour du user si connection web en DB sinon dans sqlLite
     [RelayCommand]
     async void Update()
     {
@@ -70,7 +72,7 @@ public partial class ProfilViewModel : BaseViewModel
         }
     }
 
-
+    // si connection web desactivation en db sinon suppression avec SQLLite
     [RelayCommand]
     async Task Delete()
     {
@@ -94,7 +96,7 @@ public partial class ProfilViewModel : BaseViewModel
         }
     }
 
-
+    // retour vers la page precedante
     [RelayCommand]
     async Task Back()
     {
