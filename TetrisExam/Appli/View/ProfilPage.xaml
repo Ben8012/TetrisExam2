@@ -31,25 +31,15 @@
 
 
 
-            <VerticalStackLayout Spacing="5" >
-                <Label Text="Profil" FontSize="28" TextColor="Gray" HorizontalTextAlignment="Center" />
-                <Label Text="Update your account" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
+            <VerticalStackLayout Spacing="25" Padding="30,0" >
+               
+                <Label Text="Modifiy your account" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
+                <Label Text="Name" FontSize="15" TextColor="Gray" HorizontalTextAlignment="Center" />
+                <Entry Text="{Binding User.Name}" Margin="20,0,0,0" VerticalOptions="Center"  HorizontalTextAlignment="Center"  WidthRequest="300"/>
+                <Label Text="Email" FontSize="15" TextColor="Gray" HorizontalTextAlignment="Center" />
+                <Entry Text="{Binding User.Email}" Margin="20,0,0,0" VerticalOptions="Center" HorizontalTextAlignment="Center"  WidthRequest="300" />
             </VerticalStackLayout>
 
-            <StackLayout Orientation="Horizontal" WidthRequest="500" >
-
-
-                <Entry Text="{Binding User.Name}" Margin="20,0,0,0" VerticalOptions="Center"  HorizontalTextAlignment="Center"  WidthRequest="300"/>
-                
-            </StackLayout>
-
-
-            <StackLayout Orientation="Horizontal" WidthRequest="500" >
-
-
-                <Entry Text="{Binding User.Email}" Margin="20,0,0,0" VerticalOptions="Center" HorizontalTextAlignment="Center"  WidthRequest="300" />
-               
-            </StackLayout>
         
 
             <Button Text="Update" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding UpdateCommand}" />

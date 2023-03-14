@@ -13,6 +13,6 @@ namespace TetrisExam.Appli.Model
         public string Password { get; set; }
         public int Point { get; set; }
 
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

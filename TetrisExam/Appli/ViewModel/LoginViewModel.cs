@@ -40,13 +40,25 @@ namespace TetrisExam.Appli.ViewModel
             try
             {
                 // Pour faire un connection sans devoir encoder l email et le mot de passe
-                Login login = new Login();
-                login.Email = "tim@mail.com";
-                login.Password = "test1234=";
-                //login.Email = _email;
-                //login.Password = _password;
 
-                User user = await _userService.Login(login);
+                Login login = new Login();
+                //login.Email = "tim@mail.com";
+                //login.Password = "test1234=";
+                login.Email = _email;
+                login.Password = _password;
+
+
+                User user = new User();
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    user = await _userService.Login(login);
+                }
+                else
+                {
+                    user = await _userServiceSqlLite.Login(login);
+                }
+
+                
 
                 // mettre la redirection en commentaire pour le test du login
                 if (user != null)

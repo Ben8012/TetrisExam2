@@ -41,6 +41,8 @@ namespace TetrisExam.Appli.ViewModel
                 return;
 
             IsBusy = true;
+
+            users.Clear();
             if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             {
                 try

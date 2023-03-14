@@ -24,7 +24,7 @@ namespace TetrisExam.Appli.Model.SqlLite
 
         public int Point { get; set; }
 
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }

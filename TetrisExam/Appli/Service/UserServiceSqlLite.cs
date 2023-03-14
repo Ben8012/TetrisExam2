@@ -39,8 +39,25 @@ namespace TetrisExam.Appli.Service
                     throw new Exception("Valid name, password, email required");
 
                 // A faire 
-                User user = new User();
-                return  user;
+                UserSqlLite userSqlLite = await conn.GetAsync<UserSqlLite>(user => user.Email == login.Email);
+                
+
+                // bool verified = BCrypt.Net.BCrypt.Verify(login.Password, userSqlLite.Password);
+
+                //if (verified)
+                //{
+                    User user = new User
+                    {
+                        Name = userSqlLite.Name,
+                        Email = userSqlLite.Email,
+                        Point = userSqlLite.Point,
+                        IsActive = userSqlLite.IsActive,
+                        Token = ""
+                    };
+                    return user;
+                //}
+                return null;
+                
 
             }
             catch (Exception ex)
@@ -68,7 +85,8 @@ namespace TetrisExam.Appli.Service
                     Name = register.Name,
                     Email = register.Email,
                     Password = register.Password,
-                    Point =  register.Point <= 0 ?  0 : register.Point
+                    Point =  register.Point,
+                    IsActive= register.IsActive,
 
                 });
 
@@ -77,6 +95,7 @@ namespace TetrisExam.Appli.Service
                     Name = register.Name,
                     Email = register.Email,
                     Point = 0,
+                    IsActive = register.IsActive,
                     Token = ""
                 };
 
@@ -106,6 +125,7 @@ namespace TetrisExam.Appli.Service
                         Name = user.Name,
                         Email = user.Email,
                         Point = user.Point,
+                        IsActive= user.IsActive,
                         Token = ""
                     });
                 }

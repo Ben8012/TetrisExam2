@@ -21,6 +21,7 @@ namespace TetrisExam.Appli.ViewModel
 
         private List<Register> registers = new List<Register>();
         private List<User> usersDB = new List<User>();
+        private List<User> usersSqlLite = new List<User>();
 
         public MainPageViewModel(IUserService userService, IUserServiceSqlLite userServiceSqlLite, IConnectivity connectivity)
         {
@@ -32,32 +33,64 @@ namespace TetrisExam.Appli.ViewModel
             // ici mise a jour sql lite
             if (_connectivity.NetworkAccess == NetworkAccess.Internet)
             {
+                // _userServiceSqlLite.Delete();
                 UpdateSqlLite();
             }
         }
 
         private async Task UpdateSqlLite()
         {
+           
             usersDB = await _userService.GetAllUsers();
+            usersSqlLite = await _userServiceSqlLite.GetAllUsers();
 
-            if(usersDB.Count > 0)
+            bool existe = false;
+
+            foreach (var userSqlLite  in usersSqlLite )
             {
-                _userServiceSqlLite.Delete();
-               
+                existe = false;
+                foreach (var userDB in usersDB)
+                {
+                    if (userDB.Email == userSqlLite.Email)
+                    {
+                       existe= true;
+                    }
+                }
+                if (!existe)
+                {
+                    Register register = new Register()
+                    {
+                        Name = userSqlLite.Name,
+                        Email = userSqlLite.Email,
+                        Point = userSqlLite.Point,
+                        IsActive = userSqlLite.IsActive,
+                        Password = "test1234="
+
+                    };
+                    User result = await _userService.Register(register);
+                }
+                existe= false;
             }
 
-            foreach (User user in usersDB)
-            {
-                Register register = new Register
-                {
-                    
-                    Name=user.Name,
-                    Email=user.Email,
-                    Point=user.Point,
-                    IsActive= user.IsActive
-                };
+            
+            
 
-                User result = await _userServiceSqlLite.Register(register);
+
+
+        usersDB = await _userService.GetAllUsers();
+            await _userServiceSqlLite.Delete();
+
+            foreach (var userDB in usersDB)
+            {
+                Register register = new Register()
+                {
+
+                    Name = userDB.Name,
+                    Email = userDB.Email,
+                    Point = userDB.Point,
+                    IsActive = userDB.IsActive
+                };
+                User user = await _userServiceSqlLite.Register(register);
             }
 
         }

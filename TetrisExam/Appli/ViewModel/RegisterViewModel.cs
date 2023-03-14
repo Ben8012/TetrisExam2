@@ -47,20 +47,20 @@ namespace TetrisExam.Appli.ViewModel
                     Register register = new Register();
                     register.Email = _email;               
                     register.Name = _name;
-
-
-                    
+                    register.Password = _password;
+                    register.IsActive = true;
+                    register.Point = 0;
 
                     User user = new User();
 
                     if (_connectivity.NetworkAccess != NetworkAccess.Internet)
                     {
-                        register.Password = BCrypt.Net.BCrypt.HashPassword(_password);
+                        //register.Password = BCrypt.Net.BCrypt.HashPassword(_password);
                         user = await _userServiceSqlLite.Register(register);
                     }
                     else
                     {
-                        register.Password = _password;
+                        //register.Password = _password;
                         user = await _userService.Register(register);
                     }
 
