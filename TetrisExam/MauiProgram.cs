@@ -32,8 +32,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<GamePage>();
         builder.Services.AddSingleton<GameViewModel>();
 
-        builder.Services.AddSingleton<BestScorePage>();
-        builder.Services.AddSingleton<BestScoreViewModel>();
+        builder.Services.AddTransient<BestScorePage>();
+        builder.Services.AddTransient<BestScoreViewModel>();
 
         
 
